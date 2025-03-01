@@ -26,7 +26,7 @@ jobs:
       run: |
         git clone --branch master https://github.com/raysan5/raylib.git
         cd raylib
-        cmake . -DCMAKE_BUILD_TYPE=Release
+        cmake . -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=OFF
         make
         sudo make install
 
@@ -34,7 +34,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        emcc ../main.c -o main.html -s USE_RAYLIB=1 -I../raylib/src -L../raylib/src -lraylib -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s 'EXPORTED_FUNCTIONS=["_main"]'
+        emcc ../main.c -o main.html -s -I../raylib/src -L../raylib/src -lraylib -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s 'EXPORTED_FUNCTIONS=["_main"]'
 
     - name: Upload compiled files as artifacts
       uses: actions/upload-artifact@v4.6.1
