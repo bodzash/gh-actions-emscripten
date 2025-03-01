@@ -18,7 +18,8 @@ jobs:
     - name: Install Raylib Dependencies
       run: |
         sudo apt update
-        sudo apt install -y cmake build-essential git libsdl2-dev
+        # sudo apt install -y cmake build-essential git libsdl2-dev
+        # sudo apt install -y cmake build-essential git libraylib5-dev
 
     - name: Clone Raylib
       run: |
@@ -34,7 +35,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        emcc ../main.c -o main.html -s -I../raylib/src -L../raylib/build/raylib -lraylib -s USE_GLFW=3 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s 'EXPORTED_FUNCTIONS=["_main"]'
+        emcc ../main.c -o index.html --shell-file ../shell_minimal.html -s -I../raylib/src -L../raylib/build/raylib -lraylib -s USE_GLFW=3 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s 'EXPORTED_FUNCTIONS=["_main"]'
 
     - name: Upload compiled files as artifacts
       uses: actions/upload-artifact@v4.6.1
