@@ -24,7 +24,9 @@ jobs:
       run: |
         git clone --branch master https://github.com/raysan5/raylib.git
         cd raylib
-        emcmake cmake . -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=OFF
+        mkdir build
+        cd build
+        emcmake cmake .. -DPLATFORM=Web -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=OFF
         emmake make
         sudo make install
 
