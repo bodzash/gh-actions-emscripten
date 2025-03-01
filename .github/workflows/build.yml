@@ -1,9 +1,15 @@
 name: Emscripten Build
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:  # This allows manual triggering through GitHub UI
+    inputs:
+      example_input:
+        description: 'An input for the action'
+        required: false
+        default: 'default_value'
+  # push:
+    # branches:
+      # - main
 jobs:
   build:
     runs-on: ubuntu-latest
