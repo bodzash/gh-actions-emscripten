@@ -1,0 +1,43 @@
+name: Emscripten Build
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    - name: Set up Emscripten
+      uses: emscripten/actions/setup-emscripten@v2
+      with:
+        sdk: 'latest'
+
+    - name: Install Raylib Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y cmake build-essential git libsdl2-dev
+
+    - name: Clone Raylib
+      run: |
+        git clone --branch master https://github.com/raysan5/raylib.git
+        cd raylib
+        cmake . -DCMAKE_BUILD_TYPE=Release
+        make
+        sudo make install
+
+    - name: Build C Project with Raylib
+      run: |
+        mkdir build
+        cd build
+        emcc ../main.c -o main.html -s USE_RAYLIB=1 -I../raylib/src -L../raylib/src -lraylib -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s 'EXPORTED_FUNCTIONS=["_main"]'
+
+    - name: Upload compiled files as artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: web-build
+        path: build/main.html
