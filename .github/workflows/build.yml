@@ -10,10 +10,10 @@ jobs:
     
     steps:
     - name: Check out repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Emscripten
-      uses: emscripten/actions/setup-emscripten@v2
+      uses: mymindstorm/setup-emsdk@v14
       with:
         sdk: 'latest'
 
@@ -37,7 +37,7 @@ jobs:
         emcc ../main.c -o main.html -s USE_RAYLIB=1 -I../raylib/src -L../raylib/src -lraylib -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s 'EXPORTED_FUNCTIONS=["_main"]'
 
     - name: Upload compiled files as artifacts
-      uses: actions/upload-artifact@v3
+      uses: ctions/upload-artifact@v4.6.1
       with:
         name: web-build
         path: build/main.html
